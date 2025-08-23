@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  BarChart3, 
-  Settings, 
-  Calendar, 
+import {
+  BarChart3,
+  Settings,
+  Calendar,
   Home,
   Menu,
   X,
-  Zap
+  Zap,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -108,7 +108,7 @@ export default function Navigation() {
                   </Link>
                 );
               })}
-              
+
               <div className="pt-4 space-y-2">
                 <Badge variant="outline" className="px-2 py-1 w-fit">
                   <Zap className="h-3 w-3 mr-1" />

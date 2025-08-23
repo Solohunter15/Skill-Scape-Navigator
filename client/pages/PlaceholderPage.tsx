@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
 import { ArrowLeft, Construction, Lightbulb } from "lucide-react";
@@ -11,13 +17,13 @@ interface PlaceholderPageProps {
   features?: string[];
 }
 
-export default function PlaceholderPage({ 
-  title, 
-  description, 
-  features = [] 
+export default function PlaceholderPage({
+  title,
+  description,
+  features = [],
 }: PlaceholderPageProps) {
   const location = useLocation();
-  
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -28,11 +34,11 @@ export default function PlaceholderPage({
             <div className="mx-auto h-16 w-16 rounded-full bg-warning/10 flex items-center justify-center">
               <Construction className="h-8 w-8 text-warning" />
             </div>
-            
+
             <Badge variant="outline" className="mx-auto">
               Coming Soon
             </Badge>
-            
+
             <h1 className="text-3xl font-bold">{title}</h1>
             <p className="text-lg text-muted-foreground max-w-md mx-auto">
               {description}
@@ -64,7 +70,9 @@ export default function PlaceholderPage({
           )}
 
           <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-success/10 p-6 rounded-lg">
-            <h3 className="font-semibold mb-2">Want to see this feature next?</h3>
+            <h3 className="font-semibold mb-2">
+              Want to see this feature next?
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Let us know what you'd like to see prioritized in development.
             </p>
@@ -72,22 +80,16 @@ export default function PlaceholderPage({
               <Button variant="outline" size="sm">
                 Request Feature
               </Button>
-              <Button size="sm">
-                Provide Feedback
-              </Button>
+              <Button size="sm">Provide Feedback</Button>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="outline" asChild>
-              <Link to="/">
-                Back to Home
-              </Link>
+              <Link to="/">Back to Home</Link>
             </Button>
             <Button asChild>
-              <Link to="/dashboard">
-                Go to Dashboard
-              </Link>
+              <Link to="/dashboard">Go to Dashboard</Link>
             </Button>
           </div>
         </div>

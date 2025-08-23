@@ -35,7 +35,7 @@ const App = () => (
                   "Predictive career trajectory modeling",
                   "Industry benchmarking and comparison",
                   "Custom report generation",
-                  "Export capabilities for presentations"
+                  "Export capabilities for presentations",
                 ]}
               />
             }
@@ -51,7 +51,7 @@ const App = () => (
                   "Project management tools (Asana, Jira, Trello)",
                   "Learning platforms (Coursera, Udemy, LinkedIn Learning)",
                   "Professional networks (LinkedIn, GitHub)",
-                  "Communication tools (Slack, Microsoft Teams)"
+                  "Communication tools (Slack, Microsoft Teams)",
                 ]}
               />
             }
@@ -67,7 +67,7 @@ const App = () => (
                   "Privacy settings and data control",
                   "Career goals and milestone management",
                   "AI nudging sensitivity adjustments",
-                  "Account security and authentication"
+                  "Account security and authentication",
                 ]}
               />
             }

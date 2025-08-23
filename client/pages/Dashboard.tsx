@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -19,7 +25,7 @@ import {
   Users,
   Zap,
   CheckCircle2,
-  AlertTriangle
+  AlertTriangle,
 } from "lucide-react";
 
 // Mock data for demonstration
@@ -27,9 +33,19 @@ const skillData = [
   { name: "React/Frontend", level: 85, growth: +12, category: "Technical" },
   { name: "Project Management", level: 72, growth: +8, category: "Leadership" },
   { name: "Data Analysis", level: 45, growth: +15, category: "Technical" },
-  { name: "Team Communication", level: 88, growth: +3, category: "Soft Skills" },
+  {
+    name: "Team Communication",
+    level: 88,
+    growth: +3,
+    category: "Soft Skills",
+  },
   { name: "Cloud Architecture", level: 35, growth: +22, category: "Technical" },
-  { name: "Strategic Planning", level: 58, growth: +18, category: "Leadership" }
+  {
+    name: "Strategic Planning",
+    level: 58,
+    growth: +18,
+    category: "Leadership",
+  },
 ];
 
 const recentNudges = [
@@ -37,10 +53,11 @@ const recentNudges = [
     id: 1,
     type: "learning",
     title: "Advanced React Patterns",
-    description: "Based on your recent project work, explore React Context optimization",
+    description:
+      "Based on your recent project work, explore React Context optimization",
     time: "2 hours ago",
     priority: "high",
-    completed: false
+    completed: false,
   },
   {
     id: 2,
@@ -49,7 +66,7 @@ const recentNudges = [
     description: "Your calendar shows upcoming cloud architecture meetings",
     time: "1 day ago",
     priority: "medium",
-    completed: true
+    completed: true,
   },
   {
     id: 3,
@@ -58,8 +75,8 @@ const recentNudges = [
     description: "Expand your network in areas where you're growing",
     time: "2 days ago",
     priority: "low",
-    completed: false
-  }
+    completed: false,
+  },
 ];
 
 const weeklyActivity = [
@@ -71,13 +88,15 @@ const weeklyActivity = [
 ];
 
 export default function Dashboard() {
-  const [animatedValues, setAnimatedValues] = useState<{[key: string]: number}>({});
+  const [animatedValues, setAnimatedValues] = useState<{
+    [key: string]: number;
+  }>({});
 
   useEffect(() => {
     // Animate progress bars on load
     const timer = setTimeout(() => {
-      const values: {[key: string]: number} = {};
-      skillData.forEach(skill => {
+      const values: { [key: string]: number } = {};
+      skillData.forEach((skill) => {
         values[skill.name] = skill.level;
       });
       setAnimatedValues(values);
@@ -95,10 +114,14 @@ export default function Dashboard() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "high": return "destructive";
-      case "medium": return "warning";
-      case "low": return "secondary";
-      default: return "secondary";
+      case "high":
+        return "destructive";
+      case "medium":
+        return "warning";
+      case "low":
+        return "secondary";
+      default:
+        return "secondary";
     }
   };
 
@@ -112,7 +135,9 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Welcome back, Alex!</h1>
-              <p className="text-muted-foreground">Here's your professional growth overview</p>
+              <p className="text-muted-foreground">
+                Here's your professional growth overview
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <Badge variant="outline" className="px-3 py-1">
@@ -133,7 +158,9 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Skills Developed</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Skills Developed
+              </CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -149,7 +176,9 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Learning Hours</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Learning Hours
+              </CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -165,7 +194,9 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Precision Nudges</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Precision Nudges
+              </CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -178,7 +209,9 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Career Score</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Career Score
+              </CardTitle>
               <Award className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -218,7 +251,9 @@ export default function Dashboard() {
                   {skillData.map((skill) => (
                     <div key={skill.name} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{skill.name}</span>
+                        <span className="text-sm font-medium">
+                          {skill.name}
+                        </span>
                         <div className="flex items-center gap-2">
                           <Badge variant="outline" className="text-xs">
                             {skill.category}
@@ -228,14 +263,13 @@ export default function Dashboard() {
                           </span>
                           {skill.growth > 0 && (
                             <span className="text-xs text-success flex items-center">
-                              <ArrowUp className="h-3 w-3" />
-                              +{skill.growth}%
+                              <ArrowUp className="h-3 w-3" />+{skill.growth}%
                             </span>
                           )}
                         </div>
                       </div>
-                      <Progress 
-                        value={animatedValues[skill.name] || 0} 
+                      <Progress
+                        value={animatedValues[skill.name] || 0}
                         className="h-2"
                       />
                     </div>
@@ -258,13 +292,22 @@ export default function Dashboard() {
                   <div className="space-y-3">
                     <div className="p-3 border rounded-lg bg-destructive/5 border-destructive/20">
                       <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-medium text-sm">Cloud Architecture</h4>
-                        <Badge variant="destructive" className="text-xs">Critical</Badge>
+                        <h4 className="font-medium text-sm">
+                          Cloud Architecture
+                        </h4>
+                        <Badge variant="destructive" className="text-xs">
+                          Critical
+                        </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mb-2">
-                        Your calendar shows 40% more cloud-related meetings, but skill level is only 35%
+                        Your calendar shows 40% more cloud-related meetings, but
+                        skill level is only 35%
                       </p>
-                      <Button size="sm" variant="outline" className="text-xs h-7">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs h-7"
+                      >
                         Start Learning Path
                       </Button>
                     </div>
@@ -272,25 +315,45 @@ export default function Dashboard() {
                     <div className="p-3 border rounded-lg bg-warning/5 border-warning/20">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-medium text-sm">Data Analysis</h4>
-                        <Badge variant="outline" className="text-xs border-warning text-warning">Medium</Badge>
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-warning text-warning"
+                        >
+                          Medium
+                        </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mb-2">
                         Growing demand in your role, quick wins available
                       </p>
-                      <Button size="sm" variant="outline" className="text-xs h-7">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs h-7"
+                      >
                         View Resources
                       </Button>
                     </div>
 
                     <div className="p-3 border rounded-lg bg-primary/5 border-primary/20">
                       <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-medium text-sm">Strategic Planning</h4>
-                        <Badge variant="outline" className="text-xs border-primary text-primary">Low</Badge>
+                        <h4 className="font-medium text-sm">
+                          Strategic Planning
+                        </h4>
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-primary text-primary"
+                        >
+                          Low
+                        </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mb-2">
                         Leadership growth opportunity for next quarter
                       </p>
-                      <Button size="sm" variant="outline" className="text-xs h-7">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs h-7"
+                      >
                         Explore Options
                       </Button>
                     </div>
@@ -314,29 +377,40 @@ export default function Dashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {recentNudges.map((nudge) => (
-                    <div 
-                      key={nudge.id} 
-                      className={`p-4 border rounded-lg ${nudge.completed ? 'bg-muted/30 opacity-60' : ''}`}
+                    <div
+                      key={nudge.id}
+                      className={`p-4 border rounded-lg ${nudge.completed ? "bg-muted/30 opacity-60" : ""}`}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <h4 className="font-medium">{nudge.title}</h4>
-                          <Badge variant={getPriorityColor(nudge.priority)} className="text-xs">
+                          <Badge
+                            variant={getPriorityColor(nudge.priority)}
+                            className="text-xs"
+                          >
                             {nudge.priority}
                           </Badge>
                           {nudge.completed && (
                             <CheckCircle2 className="h-4 w-4 text-success" />
                           )}
                         </div>
-                        <span className="text-xs text-muted-foreground">{nudge.time}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {nudge.time}
+                        </span>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-3">{nudge.description}</p>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        {nudge.description}
+                      </p>
                       {!nudge.completed && (
                         <div className="flex gap-2">
                           <Button size="sm" className="h-7 text-xs">
                             Take Action
                           </Button>
-                          <Button size="sm" variant="outline" className="h-7 text-xs">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                          >
                             Learn More
                           </Button>
                         </div>
@@ -364,19 +438,21 @@ export default function Dashboard() {
                   {weeklyActivity.map((day) => (
                     <div key={day.day} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium w-12">{day.day}</span>
+                        <span className="text-sm font-medium w-12">
+                          {day.day}
+                        </span>
                         <div className="flex-1 flex gap-1 mx-4">
-                          <div 
+                          <div
                             className="bg-primary h-6 rounded"
                             style={{ width: `${(day.coding / 10) * 100}%` }}
                             title={`Coding: ${day.coding}h`}
                           />
-                          <div 
+                          <div
                             className="bg-secondary h-6 rounded"
                             style={{ width: `${(day.meetings / 10) * 100}%` }}
                             title={`Meetings: ${day.meetings}h`}
                           />
-                          <div 
+                          <div
                             className="bg-success h-6 rounded"
                             style={{ width: `${(day.learning / 10) * 100}%` }}
                             title={`Learning: ${day.learning}h`}
@@ -418,17 +494,23 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="p-3 bg-primary/10 rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Focus Area: Cloud Skills</h4>
+                    <h4 className="font-medium text-sm mb-1">
+                      Focus Area: Cloud Skills
+                    </h4>
                     <p className="text-xs text-muted-foreground">
-                      Your meeting patterns suggest increasing cloud responsibilities. 
-                      Prioritize AWS/Azure certifications over the next 2 months.
+                      Your meeting patterns suggest increasing cloud
+                      responsibilities. Prioritize AWS/Azure certifications over
+                      the next 2 months.
                     </p>
                   </div>
                   <div className="p-3 bg-success/10 rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Strength: Team Collaboration</h4>
+                    <h4 className="font-medium text-sm mb-1">
+                      Strength: Team Collaboration
+                    </h4>
                     <p className="text-xs text-muted-foreground">
-                      Your communication skills are consistently strong. 
-                      Consider mentoring opportunities to leverage this strength.
+                      Your communication skills are consistently strong.
+                      Consider mentoring opportunities to leverage this
+                      strength.
                     </p>
                   </div>
                 </CardContent>
@@ -449,11 +531,15 @@ export default function Dashboard() {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Projected (6 months)</span>
-                      <span className="font-medium text-primary">Senior Engineer</span>
+                      <span className="font-medium text-primary">
+                        Senior Engineer
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Key Milestone</span>
-                      <span className="font-medium text-success">Cloud Architecture Cert</span>
+                      <span className="font-medium text-success">
+                        Cloud Architecture Cert
+                      </span>
                     </div>
                   </div>
                   <Progress value={68} className="h-2" />
