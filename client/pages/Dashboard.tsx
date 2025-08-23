@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  BarChart3, 
-  TrendingUp, 
-  Target, 
-  Lightbulb, 
-  Clock, 
+import Navigation from "@/components/Navigation";
+import {
+  BarChart3,
+  TrendingUp,
+  Target,
+  Lightbulb,
+  Clock,
   Award,
   ArrowUp,
   ArrowDown,
