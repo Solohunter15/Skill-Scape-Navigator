@@ -9,51 +9,73 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
+    /* Base colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 225 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 225 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 225 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary brand colors - Modern purple/indigo */
+    --primary: 258 90% 66%;
+    --primary-foreground: 0 0% 100%;
+    --primary-50: 258 100% 97%;
+    --primary-100: 258 95% 94%;
+    --primary-200: 258 90% 88%;
+    --primary-300: 258 85% 80%;
+    --primary-400: 258 88% 73%;
+    --primary-500: 258 90% 66%;
+    --primary-600: 258 85% 60%;
+    --primary-700: 258 80% 54%;
+    --primary-800: 258 75% 48%;
+    --primary-900: 258 70% 42%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 215 25% 95%;
+    --secondary-foreground: 225 15% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --muted: 215 25% 96%;
+    --muted-foreground: 225 10% 55%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --accent: 204 100% 97%;
+    --accent-foreground: 225 15% 25%;
 
-    --radius: 0.5rem;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 92%;
+    --input: 215 20% 92%;
+    --ring: 258 90% 66%;
+
+    --radius: 0.75rem;
+
+    /* SkillScape Navigator brand colors */
+    --skillscape-primary: 258 90% 66%;
+    --skillscape-secondary: 204 100% 50%;
+    --skillscape-tertiary: 142 76% 36%;
+    --skillscape-accent: 291 47% 71%;
+
+    /* Gradient colors */
+    --gradient-from: 258 90% 66%;
+    --gradient-via: 204 100% 50%;
+    --gradient-to: 142 76% 36%;
 
     --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-foreground: 225 15% 25%;
+    --sidebar-primary: 258 90% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 25% 95%;
+    --sidebar-accent-foreground: 225 15% 25%;
+    --sidebar-border: 215 20% 92%;
+    --sidebar-ring: 258 90% 66%;
   }
 
   .dark {
