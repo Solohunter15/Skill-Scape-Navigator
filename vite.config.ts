@@ -34,6 +34,11 @@ function expressPlugin(): Plugin {
 
       // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
+      module.exports = {
+  reactStrictMode: true,
+  trailingSlash: true, // helps with static routing
+}
+
     },
   };
 }
