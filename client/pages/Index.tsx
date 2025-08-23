@@ -13,21 +13,21 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-br from-gradient-from via-gradient-via to-gradient-to opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
         
-        <div className="relative container mx-auto px-4 py-24 lg:py-32">
-          <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <Badge variant="outline" className="mx-auto px-4 py-2 text-sm font-medium">
+        <div className="relative container mx-auto px-4 py-16 sm:py-24 lg:py-32">
+          <div className="text-center space-y-6 sm:space-y-8 max-w-4xl mx-auto">
+            <Badge variant="outline" className="mx-auto px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium">
               🚀 AI-Powered Career Intelligence
             </Badge>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
               Meet Your{" "}
               <span className="bg-gradient-to-r from-skillscape-primary via-skillscape-secondary to-skillscape-tertiary bg-clip-text text-transparent">
                 AI Career Agent
               </span>
             </h1>
-            
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              SkillScape Navigator passively analyzes your digital footprint to identify skill gaps, 
+
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
+              SkillScape Navigator passively analyzes your digital footprint to identify skill gaps,
               deliver precision nudges, and accelerate your professional growth—all without the overwhelming effort.
             </p>
             
