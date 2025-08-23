@@ -1,41 +1,49 @@
 import { RequestHandler } from "express";
 import { query } from "../config/database";
-import { z } from 'zod';
+import { z } from "zod";
 
 // Validation schemas
 const matchRequestSchema = z.object({
   skill_name: z.string().optional(),
-  skill_level: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
-  limit: z.number().min(1).max(50).default(10)
+  skill_level: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+  limit: z.number().min(1).max(50).default(10),
 });
 
 // AI-driven mentor matching endpoint
 export const findMentors: RequestHandler = async (req, res) => {
   try {
     const userId = (req as any).user?.userId;
-    
+
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { skill_name, skill_level, limit = 10 } = matchRequestSchema.parse(req.query);
+    const {
+      skill_name,
+      skill_level,
+      limit = 10,
+    } = matchRequestSchema.parse(req.query);
 
     // Get user's needed skills if no specific skill provided
     let userNeededSkills;
     if (!skill_name) {
-      const neededSkillsResult = await query(`
+      const neededSkillsResult = await query(
+        `
         SELECT skill_name, skill_level 
         FROM skills 
         WHERE user_id = $1 AND type = 'needed'
         ORDER BY created_at DESC
-      `, [userId]);
-      
+      `,
+        [userId],
+      );
+
       userNeededSkills = neededSkillsResult.rows;
-      
+
       if (userNeededSkills.length === 0) {
         return res.json({
           mentors: [],
-          message: 'No skill gaps identified. Add some skills you want to learn!'
+          message:
+            "No skill gaps identified. Add some skills you want to learn!",
         });
       }
     }
@@ -84,9 +92,11 @@ export const findMentors: RequestHandler = async (req, res) => {
       queryParams = [userId, `%${skill_name}%`, limit];
     } else {
       // Match based on user's needed skills
-      const skillNames = userNeededSkills.map(skill => skill.skill_name);
-      const skillPlaceholders = skillNames.map((_, index) => `$${index + 2}`).join(',');
-      
+      const skillNames = userNeededSkills.map((skill) => skill.skill_name);
+      const skillPlaceholders = skillNames
+        .map((_, index) => `$${index + 2}`)
+        .join(",");
+
       matchQuery = `
         WITH mentor_skills AS (
           SELECT 
@@ -130,8 +140,8 @@ export const findMentors: RequestHandler = async (req, res) => {
 
     // Group mentors and their skills
     const mentorMap = new Map();
-    
-    result.rows.forEach(row => {
+
+    result.rows.forEach((row) => {
       if (!mentorMap.has(row.id)) {
         mentorMap.set(row.id, {
           id: row.id,
@@ -141,15 +151,15 @@ export const findMentors: RequestHandler = async (req, res) => {
           career_goals: row.career_goals,
           offered_skills: [],
           overall_match_score: 0,
-          skill_matches: 0
+          skill_matches: 0,
         });
       }
-      
+
       const mentor = mentorMap.get(row.id);
       mentor.offered_skills.push({
         skill_name: row.skill_name,
         skill_level: row.skill_level,
-        match_score: row.match_score
+        match_score: row.match_score,
       });
       mentor.overall_match_score += row.match_score;
       mentor.skill_matches++;
@@ -157,42 +167,50 @@ export const findMentors: RequestHandler = async (req, res) => {
 
     // Convert to array and calculate final scores
     const mentors = Array.from(mentorMap.values())
-      .map(mentor => ({
+      .map((mentor) => ({
         ...mentor,
-        overall_match_score: Math.round((mentor.overall_match_score / mentor.skill_matches) * 100) / 100
+        overall_match_score:
+          Math.round(
+            (mentor.overall_match_score / mentor.skill_matches) * 100,
+          ) / 100,
       }))
       .sort((a, b) => b.overall_match_score - a.overall_match_score);
 
     // Log analytics
     await query(
-      'INSERT INTO analytics (user_id, action, metadata) VALUES ($1, $2, $3)',
-      [userId, 'mentor_search', { 
-        search_criteria: { skill_name, skill_level },
-        results_count: mentors.length
-      }]
+      "INSERT INTO analytics (user_id, action, metadata) VALUES ($1, $2, $3)",
+      [
+        userId,
+        "mentor_search",
+        {
+          search_criteria: { skill_name, skill_level },
+          results_count: mentors.length,
+        },
+      ],
     );
 
     res.json({
       mentors,
       search_criteria: {
-        skill_name: skill_name || 'auto-detected from profile',
+        skill_name: skill_name || "auto-detected from profile",
         skill_level,
-        based_on_skills: !skill_name ? userNeededSkills.map(s => s.skill_name) : undefined
+        based_on_skills: !skill_name
+          ? userNeededSkills.map((s) => s.skill_name)
+          : undefined,
       },
-      total_results: mentors.length
+      total_results: mentors.length,
     });
-
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({
-        error: 'Validation failed',
-        details: error.errors
+        error: "Validation failed",
+        details: error.errors,
       });
     }
 
-    console.error('Find mentors error:', error);
+    console.error("Find mentors error:", error);
     res.status(500).json({
-      error: 'Internal server error'
+      error: "Internal server error",
     });
   }
 };
@@ -201,13 +219,14 @@ export const findMentors: RequestHandler = async (req, res) => {
 export const getPrecisionNudges: RequestHandler = async (req, res) => {
   try {
     const userId = (req as any).user?.userId;
-    
+
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     // Get user profile and skills
-    const userProfile = await query(`
+    const userProfile = await query(
+      `
       SELECT 
         u.name, u.role, u.industry, u.career_goals,
         array_agg(
@@ -230,10 +249,12 @@ export const getPrecisionNudges: RequestHandler = async (req, res) => {
       LEFT JOIN skills s ON u.id = s.user_id
       WHERE u.id = $1
       GROUP BY u.id, u.name, u.role, u.industry, u.career_goals
-    `, [userId]);
+    `,
+      [userId],
+    );
 
     if (userProfile.rows.length === 0) {
-      return res.status(404).json({ error: 'User profile not found' });
+      return res.status(404).json({ error: "User profile not found" });
     }
 
     const user = userProfile.rows[0];
@@ -244,44 +265,46 @@ export const getPrecisionNudges: RequestHandler = async (req, res) => {
     const nudges = [];
 
     // 1. Skill gap nudges
-    for (const skill of neededSkills.slice(0, 3)) { // Top 3 needed skills
-      const nudgeTypes = ['tutorial', 'video', 'article', 'learning_path'];
-      const randomType = nudgeTypes[Math.floor(Math.random() * nudgeTypes.length)];
-      
-      let content = '';
+    for (const skill of neededSkills.slice(0, 3)) {
+      // Top 3 needed skills
+      const nudgeTypes = ["tutorial", "video", "article", "learning_path"];
+      const randomType =
+        nudgeTypes[Math.floor(Math.random() * nudgeTypes.length)];
+
+      let content = "";
       let metadata = {};
 
       switch (randomType) {
-        case 'tutorial':
+        case "tutorial":
           content = `Master ${skill.skill_name} with this interactive tutorial designed for ${skill.skill_level} level`;
           metadata = {
-            url: `https://tutorial.example.com/${skill.skill_name.toLowerCase().replace(/\s+/g, '-')}`,
-            estimated_time: '30-45 min',
-            difficulty: skill.skill_level
+            url: `https://tutorial.example.com/${skill.skill_name.toLowerCase().replace(/\s+/g, "-")}`,
+            estimated_time: "30-45 min",
+            difficulty: skill.skill_level,
           };
           break;
-        case 'video':
+        case "video":
           content = `Watch: "${skill.skill_name} Fundamentals" - Perfect for your ${skill.skill_level} level`;
           metadata = {
-            url: `https://video.example.com/${skill.skill_name.toLowerCase().replace(/\s+/g, '-')}`,
-            duration: '15 min',
-            provider: 'SkillTube'
+            url: `https://video.example.com/${skill.skill_name.toLowerCase().replace(/\s+/g, "-")}`,
+            duration: "15 min",
+            provider: "SkillTube",
           };
           break;
-        case 'article':
+        case "article":
           content = `Read: "Advanced ${skill.skill_name} Techniques" to level up your skills`;
           metadata = {
-            url: `https://blog.example.com/${skill.skill_name.toLowerCase().replace(/\s+/g, '-')}`,
-            read_time: '8 min',
-            author: 'Industry Expert'
+            url: `https://blog.example.com/${skill.skill_name.toLowerCase().replace(/\s+/g, "-")}`,
+            read_time: "8 min",
+            author: "Industry Expert",
           };
           break;
-        case 'learning_path':
+        case "learning_path":
           content = `Follow the ${skill.skill_name} learning path tailored for ${user.role}s in ${user.industry}`;
           metadata = {
-            path_duration: '2-3 weeks',
+            path_duration: "2-3 weeks",
             modules: 5,
-            certification: true
+            certification: true,
           };
           break;
       }
@@ -289,9 +312,9 @@ export const getPrecisionNudges: RequestHandler = async (req, res) => {
       nudges.push({
         content,
         type: randomType,
-        priority: skill === neededSkills[0] ? 'high' : 'medium',
+        priority: skill === neededSkills[0] ? "high" : "medium",
         skill_related: skill.skill_name,
-        metadata
+        metadata,
       });
     }
 
@@ -300,29 +323,31 @@ export const getPrecisionNudges: RequestHandler = async (req, res) => {
       const topNeededSkill = neededSkills[0];
       nudges.push({
         content: `Connect with ${topNeededSkill.skill_name} experts in your network for personalized guidance`,
-        type: 'mentor',
-        priority: 'medium',
+        type: "mentor",
+        priority: "medium",
         skill_related: topNeededSkill.skill_name,
         metadata: {
-          suggested_action: 'find_mentor',
-          skill_focus: topNeededSkill.skill_name
-        }
+          suggested_action: "find_mentor",
+          skill_focus: topNeededSkill.skill_name,
+        },
       });
     }
 
     // 3. Strength-building nudges
     if (offeredSkills.length > 0) {
-      const strongSkill = offeredSkills.find(s => s.skill_level === 'advanced') || offeredSkills[0];
+      const strongSkill =
+        offeredSkills.find((s) => s.skill_level === "advanced") ||
+        offeredSkills[0];
       if (strongSkill) {
         nudges.push({
           content: `Share your ${strongSkill.skill_name} expertise by mentoring others or writing about it`,
-          type: 'skill_gap',
-          priority: 'low',
+          type: "skill_gap",
+          priority: "low",
           skill_related: strongSkill.skill_name,
           metadata: {
-            action_type: 'knowledge_sharing',
-            skill: strongSkill.skill_name
-          }
+            action_type: "knowledge_sharing",
+            skill: strongSkill.skill_name,
+          },
         });
       }
     }
@@ -331,31 +356,45 @@ export const getPrecisionNudges: RequestHandler = async (req, res) => {
     if (user.industry) {
       nudges.push({
         content: `Stay updated with latest ${user.industry} trends affecting your role as ${user.role}`,
-        type: 'article',
-        priority: 'low',
-        skill_related: 'Industry Knowledge',
+        type: "article",
+        priority: "low",
+        skill_related: "Industry Knowledge",
         metadata: {
           url: `https://industry-news.example.com/${user.industry.toLowerCase()}`,
-          update_frequency: 'weekly'
-        }
+          update_frequency: "weekly",
+        },
       });
     }
 
     // Store nudges in database for tracking
-    for (const nudge of nudges.slice(0, 5)) { // Store top 5 nudges
-      await query(`
+    for (const nudge of nudges.slice(0, 5)) {
+      // Store top 5 nudges
+      await query(
+        `
         INSERT INTO nudges (user_id, content, type, priority, status, metadata)
         VALUES ($1, $2, $3, $4, 'pending', $5)
-      `, [userId, nudge.content, nudge.type, nudge.priority, JSON.stringify(nudge.metadata)]);
+      `,
+        [
+          userId,
+          nudge.content,
+          nudge.type,
+          nudge.priority,
+          JSON.stringify(nudge.metadata),
+        ],
+      );
     }
 
     // Log analytics
     await query(
-      'INSERT INTO analytics (user_id, action, metadata) VALUES ($1, $2, $3)',
-      [userId, 'nudges_generated', { 
-        nudges_count: nudges.length,
-        categories: nudges.map(n => n.type)
-      }]
+      "INSERT INTO analytics (user_id, action, metadata) VALUES ($1, $2, $3)",
+      [
+        userId,
+        "nudges_generated",
+        {
+          nudges_count: nudges.length,
+          categories: nudges.map((n) => n.type),
+        },
+      ],
     );
 
     res.json({
@@ -365,14 +404,13 @@ export const getPrecisionNudges: RequestHandler = async (req, res) => {
         needed_skills_count: neededSkills.length,
         offered_skills_count: offeredSkills.length,
         user_role: user.role,
-        user_industry: user.industry
-      }
+        user_industry: user.industry,
+      },
     });
-
   } catch (error) {
-    console.error('Get precision nudges error:', error);
+    console.error("Get precision nudges error:", error);
     res.status(500).json({
-      error: 'Internal server error'
+      error: "Internal server error",
     });
   }
 };
@@ -382,77 +420,86 @@ export const createMentorshipMatch: RequestHandler = async (req, res) => {
   try {
     const userId = (req as any).user?.userId; // mentee
     const { mentor_id, skill_id } = req.body;
-    
+
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     if (!mentor_id || !skill_id) {
       return res.status(400).json({
-        error: 'Mentor ID and Skill ID are required'
+        error: "Mentor ID and Skill ID are required",
       });
     }
 
     // Verify mentor exists and has the offered skill
-    const mentorCheck = await query(`
+    const mentorCheck = await query(
+      `
       SELECT u.name, s.skill_name 
       FROM users u
       JOIN skills s ON u.id = s.user_id
       WHERE u.id = $1 AND s.id = $2 AND s.type = 'offered'
-    `, [mentor_id, skill_id]);
+    `,
+      [mentor_id, skill_id],
+    );
 
     if (mentorCheck.rows.length === 0) {
       return res.status(400).json({
-        error: 'Invalid mentor or skill combination'
+        error: "Invalid mentor or skill combination",
       });
     }
 
     // Check if match already exists
     const existingMatch = await query(
-      'SELECT id FROM mentorship_matches WHERE mentor_id = $1 AND mentee_id = $2 AND skill_id = $3',
-      [mentor_id, userId, skill_id]
+      "SELECT id FROM mentorship_matches WHERE mentor_id = $1 AND mentee_id = $2 AND skill_id = $3",
+      [mentor_id, userId, skill_id],
     );
 
     if (existingMatch.rows.length > 0) {
       return res.status(400).json({
-        error: 'Mentorship match already exists'
+        error: "Mentorship match already exists",
       });
     }
 
     // Create the match
-    const result = await query(`
+    const result = await query(
+      `
       INSERT INTO mentorship_matches (mentor_id, mentee_id, skill_id, status, match_score)
       VALUES ($1, $2, $3, 'pending', $4)
       RETURNING id, created_at
-    `, [mentor_id, userId, skill_id, 0.85]); // Default match score
+    `,
+      [mentor_id, userId, skill_id, 0.85],
+    ); // Default match score
 
     const match = result.rows[0];
 
     // Log analytics
     await query(
-      'INSERT INTO analytics (user_id, action, metadata) VALUES ($1, $2, $3)',
-      [userId, 'mentorship_match_created', { 
-        mentor_id,
-        skill_id,
-        match_id: match.id
-      }]
+      "INSERT INTO analytics (user_id, action, metadata) VALUES ($1, $2, $3)",
+      [
+        userId,
+        "mentorship_match_created",
+        {
+          mentor_id,
+          skill_id,
+          match_id: match.id,
+        },
+      ],
     );
 
     res.status(201).json({
-      message: 'Mentorship match created successfully',
+      message: "Mentorship match created successfully",
       match: {
         id: match.id,
         mentor_name: mentorCheck.rows[0].name,
         skill_name: mentorCheck.rows[0].skill_name,
-        status: 'pending',
-        created_at: match.created_at
-      }
+        status: "pending",
+        created_at: match.created_at,
+      },
     });
-
   } catch (error) {
-    console.error('Create mentorship match error:', error);
+    console.error("Create mentorship match error:", error);
     res.status(500).json({
-      error: 'Internal server error'
+      error: "Internal server error",
     });
   }
 };

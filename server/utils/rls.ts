@@ -6,10 +6,13 @@ import { query } from "../config/database";
  */
 export async function setUserContext(userId: string) {
   try {
-    await query('SELECT set_config($1, $2, true)', ['app.current_user_id', userId]);
+    await query("SELECT set_config($1, $2, true)", [
+      "app.current_user_id",
+      userId,
+    ]);
   } catch (error) {
-    console.error('Failed to set user context for RLS:', error);
-    throw new Error('Database security context setup failed');
+    console.error("Failed to set user context for RLS:", error);
+    throw new Error("Database security context setup failed");
   }
 }
 
@@ -17,17 +20,21 @@ export async function setUserContext(userId: string) {
  * Execute a database query with user context set for RLS
  * This ensures Row Level Security policies are enforced
  */
-export async function queryWithUserContext(userId: string, queryText: string, params?: any[]) {
+export async function queryWithUserContext(
+  userId: string,
+  queryText: string,
+  params?: any[],
+) {
   try {
     // Set user context for RLS
     await setUserContext(userId);
-    
+
     // Execute the actual query
     const result = await query(queryText, params);
-    
+
     return result;
   } catch (error) {
-    console.error('Query with user context failed:', error);
+    console.error("Query with user context failed:", error);
     throw error;
   }
 }
@@ -44,9 +51,9 @@ export function withUserContext() {
       }
       next();
     } catch (error) {
-      console.error('User context middleware error:', error);
+      console.error("User context middleware error:", error);
       res.status(500).json({
-        error: 'Database security setup failed'
+        error: "Database security setup failed",
       });
     }
   };

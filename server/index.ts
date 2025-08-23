@@ -14,14 +14,14 @@ import {
   addSkill,
   updateSkill,
   deleteSkill,
-  getSkillRecommendations
+  getSkillRecommendations,
 } from "./routes/skills";
 
 // Matching routes
 import {
   findMentors,
   getPrecisionNudges,
-  createMentorshipMatch
+  createMentorshipMatch,
 } from "./routes/matching";
 
 // Dashboard routes
@@ -29,7 +29,7 @@ import {
   getSkillsOverview,
   getProgressTimeline,
   getAnalytics,
-  getActivityFeed
+  getActivityFeed,
 } from "./routes/dashboard";
 
 // Notification routes
@@ -39,7 +39,7 @@ import {
   updateNudgeStatus,
   createNudge,
   deleteNudge,
-  getNudgeAnalytics
+  getNudgeAnalytics,
 } from "./routes/notifications";
 
 export function createServer() {
@@ -77,7 +77,11 @@ export function createServer() {
   app.post("/api/skills", authenticateToken, addSkill);
   app.put("/api/skills/:skillId", authenticateToken, updateSkill);
   app.delete("/api/skills/:skillId", authenticateToken, deleteSkill);
-  app.get("/api/skills/recommendations", authenticateToken, getSkillRecommendations);
+  app.get(
+    "/api/skills/recommendations",
+    authenticateToken,
+    getSkillRecommendations,
+  );
 
   // =============================================================================
   // AI MATCHING & RECOMMENDATION ROUTES
@@ -99,7 +103,11 @@ export function createServer() {
   // =============================================================================
   app.get("/api/notifications", authenticateToken, getUserNudges);
   app.get("/api/notifications/:nudgeId", authenticateToken, getNudgeById);
-  app.patch("/api/notifications/:nudgeId", authenticateToken, updateNudgeStatus);
+  app.patch(
+    "/api/notifications/:nudgeId",
+    authenticateToken,
+    updateNudgeStatus,
+  );
   app.post("/api/notifications", authenticateToken, createNudge);
   app.delete("/api/notifications/:nudgeId", authenticateToken, deleteNudge);
   app.get("/api/notifications/analytics", authenticateToken, getNudgeAnalytics);
@@ -112,21 +120,29 @@ export function createServer() {
   app.use("/api/*", (_req, res) => {
     res.status(404).json({
       error: "API endpoint not found",
-      message: "Please check the API documentation for available endpoints"
+      message: "Please check the API documentation for available endpoints",
     });
   });
 
   // Global error handler
-  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error('Unhandled error:', err);
+  app.use(
+    (
+      err: any,
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      console.error("Unhandled error:", err);
 
-    res.status(err.status || 500).json({
-      error: process.env.NODE_ENV === 'production'
-        ? 'Internal server error'
-        : err.message,
-      ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
-    });
-  });
+      res.status(err.status || 500).json({
+        error:
+          process.env.NODE_ENV === "production"
+            ? "Internal server error"
+            : err.message,
+        ...(process.env.NODE_ENV !== "production" && { stack: err.stack }),
+      });
+    },
+  );
 
   return app;
 }

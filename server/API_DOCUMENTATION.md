@@ -1,12 +1,15 @@
 # SkillScape Navigator API Documentation
 
 ## Base URL
+
 ```
 http://localhost:8080/api
 ```
 
 ## Authentication
+
 Most endpoints require authentication via JWT token in the Authorization header:
+
 ```
 Authorization: Bearer <jwt_token>
 ```
@@ -16,9 +19,11 @@ Authorization: Bearer <jwt_token>
 ## Authentication Endpoints
 
 ### POST /auth/register
+
 Register a new user account.
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -31,6 +36,7 @@ Register a new user account.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "User registered successfully",
@@ -48,9 +54,11 @@ Register a new user account.
 ```
 
 ### POST /auth/login
+
 Login with email and password.
 
 **Request Body:**
+
 ```json
 {
   "email": "john@example.com",
@@ -59,6 +67,7 @@ Login with email and password.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Login successful",
@@ -75,11 +84,13 @@ Login with email and password.
 ```
 
 ### GET /auth/profile
+
 Get current user profile with skills.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "user": {
@@ -107,14 +118,17 @@ Get current user profile with skills.
 ## Skills Management Endpoints
 
 ### GET /skills
+
 Get user's skills with optional filtering.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Query Parameters:**
+
 - `type` (optional): `offered` or `needed`
 
 **Response:**
+
 ```json
 {
   "skills": {
@@ -145,11 +159,13 @@ Get user's skills with optional filtering.
 ```
 
 ### POST /skills
+
 Add a new skill to user profile.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
+
 ```json
 {
   "skill_name": "Python",
@@ -159,6 +175,7 @@ Add a new skill to user profile.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Skill added successfully",
@@ -174,11 +191,13 @@ Add a new skill to user profile.
 ```
 
 ### PUT /skills/:skillId
+
 Update an existing skill.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
+
 ```json
 {
   "skill_level": "advanced"
@@ -186,6 +205,7 @@ Update an existing skill.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Skill updated successfully",
@@ -201,11 +221,13 @@ Update an existing skill.
 ```
 
 ### DELETE /skills/:skillId
+
 Delete a skill from user profile.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "message": "Skill deleted successfully"
@@ -213,19 +235,16 @@ Delete a skill from user profile.
 ```
 
 ### GET /skills/recommendations
+
 Get personalized skill recommendations.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
-  "recommendations": [
-    "System Design",
-    "Docker",
-    "Kubernetes",
-    "Microservices"
-  ],
+  "recommendations": ["System Design", "Docker", "Kubernetes", "Microservices"],
   "based_on": {
     "role": "professional",
     "industry": "Technology",
@@ -239,16 +258,19 @@ Get personalized skill recommendations.
 ## AI Matching & Recommendations
 
 ### GET /match/mentors
+
 Find mentors based on skill gaps.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Query Parameters:**
+
 - `skill_name` (optional): Specific skill to find mentors for
 - `skill_level` (optional): `beginner`, `intermediate`, `advanced`
 - `limit` (optional): Number of results (default: 10, max: 50)
 
 **Response:**
+
 ```json
 {
   "mentors": [
@@ -278,11 +300,13 @@ Find mentors based on skill gaps.
 ```
 
 ### GET /recommend/nudges
+
 Get personalized precision nudges.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "nudges": [
@@ -309,11 +333,13 @@ Get personalized precision nudges.
 ```
 
 ### POST /match/mentorship
+
 Create a mentorship match request.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
+
 ```json
 {
   "mentor_id": "uuid",
@@ -322,6 +348,7 @@ Create a mentorship match request.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Mentorship match created successfully",
@@ -340,11 +367,13 @@ Create a mentorship match request.
 ## Dashboard Data Endpoints
 
 ### GET /dashboard/skills
+
 Get comprehensive skills overview for dashboard.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "skills_summary": {
@@ -389,11 +418,13 @@ Get comprehensive skills overview for dashboard.
 ```
 
 ### GET /dashboard/progress
+
 Get career progress timeline and metrics.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "progress_metrics": {
@@ -441,14 +472,17 @@ Get career progress timeline and metrics.
 ```
 
 ### GET /dashboard/analytics
+
 Get detailed analytics and insights.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Query Parameters:**
+
 - `timeframe` (optional): `7d`, `30d`, `90d` (default: `30d`)
 
 **Response:**
+
 ```json
 {
   "timeframe": "30d",
@@ -497,14 +531,17 @@ Get detailed analytics and insights.
 ```
 
 ### GET /dashboard/activity
+
 Get recent activity feed.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Query Parameters:**
+
 - `limit` (optional): Number of activities to return (default: 20)
 
 **Response:**
+
 ```json
 {
   "activities": [
@@ -532,17 +569,20 @@ Get recent activity feed.
 ## Notifications & Nudges
 
 ### GET /notifications
+
 Get user's nudges with filtering and pagination.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Query Parameters:**
+
 - `status` (optional): `pending`, `read`, `completed`, `dismissed`
 - `type` (optional): `tutorial`, `video`, `article`, `mentor`, `skill_gap`, `learning_path`
 - `limit` (optional): Number of results (default: 50)
 - `offset` (optional): Pagination offset (default: 0)
 
 **Response:**
+
 ```json
 {
   "nudges": [
@@ -578,11 +618,13 @@ Get user's nudges with filtering and pagination.
 ```
 
 ### GET /notifications/:nudgeId
+
 Get a specific nudge (marks as read if pending).
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "nudge": {
@@ -603,11 +645,13 @@ Get a specific nudge (marks as read if pending).
 ```
 
 ### PATCH /notifications/:nudgeId
+
 Update nudge status.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
+
 ```json
 {
   "status": "completed"
@@ -615,6 +659,7 @@ Update nudge status.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Nudge updated successfully",
@@ -633,11 +678,13 @@ Update nudge status.
 ```
 
 ### POST /notifications
+
 Create a new nudge (self-nudging or admin).
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
+
 ```json
 {
   "content": "Practice system design interviews",
@@ -652,6 +699,7 @@ Create a new nudge (self-nudging or admin).
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Nudge created successfully",
@@ -673,11 +721,13 @@ Create a new nudge (self-nudging or admin).
 ```
 
 ### DELETE /notifications/:nudgeId
+
 Delete a nudge.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Response:**
+
 ```json
 {
   "message": "Nudge deleted successfully"
@@ -685,14 +735,17 @@ Delete a nudge.
 ```
 
 ### GET /notifications/analytics
+
 Get nudge performance analytics.
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Query Parameters:**
+
 - `timeframe` (optional): `7d`, `30d`, `90d` (default: `30d`)
 
 **Response:**
+
 ```json
 {
   "timeframe": "30d",
@@ -738,6 +791,7 @@ Get nudge performance analytics.
 All endpoints return consistent error responses:
 
 ### 400 Bad Request
+
 ```json
 {
   "error": "Validation failed",
@@ -751,6 +805,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 401 Unauthorized
+
 ```json
 {
   "error": "Access token required"
@@ -758,6 +813,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 403 Forbidden
+
 ```json
 {
   "error": "Insufficient permissions"
@@ -765,6 +821,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 404 Not Found
+
 ```json
 {
   "error": "Resource not found"
@@ -772,6 +829,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 500 Internal Server Error
+
 ```json
 {
   "error": "Internal server error"
@@ -783,6 +841,7 @@ All endpoints return consistent error responses:
 ## Rate Limiting
 
 API endpoints are rate limited to prevent abuse:
+
 - Authentication endpoints: 5 requests per minute
 - General endpoints: 100 requests per minute
 - Heavy computation endpoints (matching, analytics): 20 requests per minute
@@ -802,6 +861,7 @@ API endpoints are rate limited to prevent abuse:
 ## Sample Data
 
 The API comes pre-seeded with sample data including:
+
 - 10 sample users (students, professionals, mentors)
 - Various skills across technology domains
 - Sample nudges and mentorship matches

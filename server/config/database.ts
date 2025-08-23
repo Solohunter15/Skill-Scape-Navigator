@@ -1,28 +1,28 @@
-import { Pool } from 'pg';
+import { Pool } from "pg";
 
 // Database configuration
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error('DATABASE_URL environment variable is required');
+  throw new Error("DATABASE_URL environment variable is required");
 }
 
 export const pool = new Pool({
   connectionString,
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
 
 // Test database connection
 export async function testConnection() {
   try {
     const client = await pool.connect();
-    console.log('✅ Database connected successfully');
+    console.log("✅ Database connected successfully");
     client.release();
     return true;
   } catch (error) {
-    console.error('❌ Database connection failed:', error);
+    console.error("❌ Database connection failed:", error);
     return false;
   }
 }
@@ -34,7 +34,7 @@ export async function query(text: string, params?: any[]) {
     const result = await client.query(text, params);
     return result;
   } catch (error) {
-    console.error('Database query error:', error);
+    console.error("Database query error:", error);
     throw error;
   } finally {
     client.release();
