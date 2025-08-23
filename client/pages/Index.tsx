@@ -68,7 +68,7 @@ export default function Index() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
               <CardHeader>
                 <div className="h-12 w-12 rounded-lg bg-skillscape-primary/10 flex items-center justify-center mb-4">
