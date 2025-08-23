@@ -3,6 +3,10 @@ import { Pool } from 'pg';
 // Database configuration
 const connectionString = process.env.DATABASE_URL;
 
+if (!connectionString) {
+  throw new Error('DATABASE_URL environment variable is required');
+}
+
 export const pool = new Pool({
   connectionString,
   ssl: {
