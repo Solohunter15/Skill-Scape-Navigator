@@ -4,7 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/', // Ensure correct base path for deployments
+  base: "/", // Ensure correct base path for deployments
   server: {
     host: "::",
     port: 8080,
@@ -12,8 +12,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     sourcemap: false,
-    target: 'es2020', // Better browser compatibility
-    assetsDir: 'assets',
+    target: "es2020", // Better browser compatibility
+    assetsDir: "assets",
     rollupOptions: {
       output: {
         manualChunks: {
@@ -40,6 +40,6 @@ export default defineConfig(({ mode }) => ({
   },
   // Fix potential deployment issues
   define: {
-    'process.env.NODE_ENV': JSON.stringify(mode),
+    "process.env.NODE_ENV": JSON.stringify(mode),
   },
 }));
