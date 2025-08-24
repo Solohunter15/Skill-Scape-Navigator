@@ -117,7 +117,7 @@ export default function Dashboard() {
       case "high":
         return "destructive";
       case "medium":
-        return "warning";
+        return "default";
       case "low":
         return "secondary";
       default:
