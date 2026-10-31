@@ -1,298 +1,215 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import {
   ArrowRight,
-  Brain,
-  BarChart3,
-  Target,
+  Compass,
+  Sparkles,
   Zap,
-  Shield,
-  Smartphone,
-  TrendingUp,
-  Users,
-  Calendar,
-  BookOpen,
+  Target,
+  ShieldCheck,
+  BarChart3,
+  Swords,
+  ChevronRight,
+  Layers,
+  Award,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gradient-from via-gradient-via to-gradient-to opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
+    <div className="min-h-screen bg-[#070b14] text-slate-100 selection:bg-cyan-500 selection:text-black">
+      {/* Navigation Header */}
+      <nav className="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5 font-black text-lg text-white">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+              <Compass className="w-5 h-5" />
+            </div>
+            <span>
+              SkillScape <span className="text-cyan-400">Navigator</span>
+            </span>
+          </Link>
 
-        <div className="relative container mx-auto px-4 py-16 sm:py-24 lg:py-32">
-          <div className="text-center space-y-6 sm:space-y-8 max-w-4xl mx-auto">
-            <Badge
-              variant="outline"
-              className="mx-auto px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium"
+          <div className="flex items-center gap-3">
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="text-xs text-slate-300 hover:text-white"
             >
-              🚀 AI-Powered Career Intelligence
-            </Badge>
+              <Link to="/quests">Decision Quests</Link>
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              className="bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold shadow-lg shadow-cyan-900/40"
+            >
+              <Link to="/dashboard" className="flex items-center gap-1.5">
+                Launch Command Center <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </nav>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-              Meet Your{" "}
-              <span className="bg-gradient-to-r from-skillscape-primary via-skillscape-secondary to-skillscape-tertiary bg-clip-text text-transparent">
-                AI Career Agent
-              </span>
-            </h1>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-20 pb-24 md:pt-28 md:pb-32">
+        {/* Subtle Cosmic Background Glows */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-cyan-500/10 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
-              SkillScape Navigator passively analyzes your digital footprint to
-              identify skill gaps, deliver precision nudges, and accelerate your
-              professional growth—all without the overwhelming effort.
-            </p>
+        <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl space-y-6">
+          <Badge
+            variant="outline"
+            className="px-3.5 py-1.5 text-xs font-mono font-medium border-cyan-500/40 text-cyan-300 bg-cyan-950/40 backdrop-blur-md shadow-sm shadow-cyan-500/20 mx-auto"
+          >
+            🚀 Next-Gen 3D Skill Constellation & Career Intelligence OS
+          </Badge>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                asChild
-                size="lg"
-                className="h-12 px-8 text-base bg-primary hover:bg-primary/90"
-              >
-                <Link to="/onboarding" className="flex items-center gap-2">
-                  Start Your Journey
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-12 px-8 text-base"
-              >
-                Watch Demo
-              </Button>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] text-white">
+            Navigate Your Tech Career In{" "}
+            <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Three Dimensions
+            </span>
+          </h1>
+
+          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            SkillScape Navigator transforms abstract professional growth into an interactive 3D WebGL Constellation. Benchmark against Staff and Principal engineering roles, solve high-stakes architectural decision scenarios, and earn verified XP.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <Button
+              asChild
+              size="lg"
+              className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-bold text-sm h-12 px-8 shadow-xl shadow-cyan-500/25"
+            >
+              <Link to="/onboarding" className="flex items-center gap-2">
+                Explore Your Constellation <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-200 text-sm h-12 px-6"
+            >
+              <Link to="/dashboard">Instant Live Demo</Link>
+            </Button>
+          </div>
+
+          {/* Metrics Ticker */}
+          <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto font-mono text-center">
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div className="text-2xl font-black text-cyan-400">3D WebGL</div>
+              <div className="text-xs text-slate-400 mt-1">Celestial Starscape</div>
             </div>
-
-            <div className="pt-8">
-              <p className="text-sm text-muted-foreground mb-4">
-                Trusted by early-career professionals at
-              </p>
-              <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-                <div className="text-lg font-semibold">Google</div>
-                <div className="text-lg font-semibold">Microsoft</div>
-                <div className="text-lg font-semibold">Amazon</div>
-                <div className="text-lg font-semibold">Meta</div>
-              </div>
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div className="text-2xl font-black text-purple-400">+$65,000</div>
+              <div className="text-xs text-slate-400 mt-1">Median Promotion Delta</div>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div className="text-2xl font-black text-emerald-400">100% Real-Time</div>
+              <div className="text-xs text-slate-400 mt-1">Scenario XP Level-Up</div>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div className="text-2xl font-black text-amber-400">Zero Fatigue</div>
+              <div className="text-xs text-slate-400 mt-1">Passive Telemetry Sync</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold">
-              Effortless Professional Growth
+      {/* Signature Features Grid */}
+      <section className="py-20 bg-slate-950/60 border-t border-slate-900">
+        <div className="container mx-auto px-4 max-w-6xl space-y-12">
+          <div className="text-center space-y-3">
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              Four Pillars of Next-Gen Career Navigation
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Our AI analyzes your work patterns to deliver personalized
-              insights and actionable recommendations.
+            <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+              Engineered for ambitious software engineers, systems architects, and technical leaders.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-skillscape-primary/10 flex items-center justify-center mb-4">
-                  <Brain className="h-6 w-6 text-skillscape-primary" />
-                </div>
-                <CardTitle>Passive Analysis</CardTitle>
-                <CardDescription>
-                  Non-intrusive monitoring of your digital footprint across
-                  calendars, project tools, and workflows.
-                </CardDescription>
-              </CardHeader>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="border-slate-800 bg-slate-900/80 backdrop-blur-md p-6 space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                <Compass className="w-6 h-6" />
+              </div>
+              <CardTitle className="text-lg font-bold text-white">
+                3D Celestial Skill Galaxy
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-300 leading-relaxed">
+                Experience your skills as an orbiting celestial universe. Watch stars grow in size and luminosity as you master competencies, complete with cross-discipline constellation links.
+              </CardDescription>
             </Card>
 
-            <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-skillscape-secondary/10 flex items-center justify-center mb-4">
-                  <Target className="h-6 w-6 text-skillscape-secondary" />
-                </div>
-                <CardTitle>Precision Nudging</CardTitle>
-                <CardDescription>
-                  Hyper-personalized micro-interventions delivered at the
-                  perfect moment to accelerate your learning.
-                </CardDescription>
-              </CardHeader>
+            <Card className="border-slate-800 bg-slate-900/80 backdrop-blur-md p-6 space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                <Target className="w-6 h-6" />
+              </div>
+              <CardTitle className="text-lg font-bold text-white">
+                Executive Career Gap Matrix
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-300 leading-relaxed">
+                Benchmark your proficiencies against verified Staff Architect, Principal AI, and Director standards. Know your exact readiness score and dollar compensation upside.
+              </CardDescription>
             </Card>
 
-            <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-skillscape-tertiary/10 flex items-center justify-center mb-4">
-                  <BarChart3 className="h-6 w-6 text-skillscape-tertiary" />
-                </div>
-                <CardTitle>Real-time Insights</CardTitle>
-                <CardDescription>
-                  Dynamic dashboard showing skill progression, gap analysis, and
-                  impact measurement over time.
-                </CardDescription>
-              </CardHeader>
+            <Card className="border-slate-800 bg-slate-900/80 backdrop-blur-md p-6 space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <Swords className="w-6 h-6" />
+              </div>
+              <CardTitle className="text-lg font-bold text-white">
+                Incident & Architecture Quests
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-300 leading-relaxed">
+                Practice high-stakes decisions: Cache stampedes, Kubernetes cascades, and RAG hallucinations. Gain instant architectural feedback and level up your constellation stars in real time.
+              </CardDescription>
             </Card>
 
-            <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-skillscape-accent/10 flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-skillscape-accent" />
-                </div>
-                <CardTitle>Smart Integrations</CardTitle>
-                <CardDescription>
-                  Seamless connections with your existing tools: calendars,
-                  project management, and learning platforms.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <Shield className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle>Privacy First</CardTitle>
-                <CardDescription>
-                  Your data stays secure with explicit consent, transparent
-                  processing, and complete control over your information.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="relative group hover:shadow-lg transition-all duration-200 border-0 bg-card/60 backdrop-blur-sm">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-success/10 flex items-center justify-center mb-4">
-                  <TrendingUp className="h-6 w-6 text-success" />
-                </div>
-                <CardTitle>Career Acceleration</CardTitle>
-                <CardDescription>
-                  Track your professional growth with metrics that matter: skill
-                  development, opportunity recognition, and goal achievement.
-                </CardDescription>
-              </CardHeader>
+            <Card className="border-slate-800 bg-slate-900/80 backdrop-blur-md p-6 space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <CardTitle className="text-lg font-bold text-white">
+                Verified Career Passport
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-300 leading-relaxed">
+                Export and share your cryptographic Career Passport detailing verified competencies, category radar scores, and promotion velocity.
+              </CardDescription>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold">
-              How SkillScape Navigator Works
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Three simple steps to transform your career trajectory with
-              AI-powered insights.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center space-y-4">
-              <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-skillscape-primary to-skillscape-secondary flex items-center justify-center text-white font-bold text-xl">
-                1
-              </div>
-              <h3 className="text-xl font-semibold">Connect Your Tools</h3>
-              <p className="text-muted-foreground">
-                Securely link your calendar, project management tools, and
-                learning platforms with one-click integrations.
-              </p>
-              <div className="flex justify-center gap-3 pt-2">
-                <Calendar className="h-5 w-5 text-muted-foreground" />
-                <BookOpen className="h-5 w-5 text-muted-foreground" />
-                <Users className="h-5 w-5 text-muted-foreground" />
-              </div>
-            </div>
-
-            <div className="text-center space-y-4">
-              <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-skillscape-secondary to-skillscape-tertiary flex items-center justify-center text-white font-bold text-xl">
-                2
-              </div>
-              <h3 className="text-xl font-semibold">AI Analysis</h3>
-              <p className="text-muted-foreground">
-                Our AI passively analyzes your work patterns, identifies skill
-                usage, and maps gaps against your career goals.
-              </p>
-              <div className="flex justify-center pt-2">
-                <Brain className="h-8 w-8 text-skillscape-secondary" />
-              </div>
-            </div>
-
-            <div className="text-center space-y-4">
-              <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-skillscape-tertiary to-skillscape-accent flex items-center justify-center text-white font-bold text-xl">
-                3
-              </div>
-              <h3 className="text-xl font-semibold">Get Nudged</h3>
-              <p className="text-muted-foreground">
-                Receive perfectly timed, personalized micro-interventions that
-                accelerate your learning and growth.
-              </p>
-              <div className="flex justify-center pt-2">
-                <Target className="h-8 w-8 text-skillscape-tertiary" />
-              </div>
-            </div>
-          </div>
+      {/* Bottom CTA */}
+      <section className="py-20 border-t border-slate-900">
+        <div className="container mx-auto px-4 max-w-4xl text-center space-y-6">
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            Ready to Take Flight?
+          </h2>
+          <p className="text-sm text-slate-400 max-w-lg mx-auto">
+            Take control of your engineering trajectory today. Setup takes under 60 seconds.
+          </p>
+          <Button
+            asChild
+            size="lg"
+            className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm h-12 px-8 shadow-xl shadow-cyan-900/50"
+          >
+            <Link to="/onboarding" className="flex items-center gap-2">
+              Launch SkillScape Navigator <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-skillscape-primary/5 via-skillscape-secondary/5 to-skillscape-tertiary/5">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto space-y-8">
-            <h2 className="text-3xl sm:text-4xl font-bold">
-              Ready to Transform Your Career?
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Join thousands of professionals already using AI to accelerate
-              their growth. Start your personalized career journey today.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                asChild
-                size="lg"
-                className="h-12 px-8 text-base bg-primary hover:bg-primary/90"
-              >
-                <Link to="/onboarding" className="flex items-center gap-2">
-                  Start Free Trial
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-12 px-8 text-base"
-              >
-                Schedule Demo
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap justify-center items-center gap-6 pt-8 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4" />
-                <span>Privacy First</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Smartphone className="h-4 w-4" />
-                <span>Mobile Ready</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4" />
-                <span>Instant Setup</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Footer */}
+      <footer className="py-8 border-t border-slate-900 text-center text-xs font-mono text-slate-500">
+        SkillScape Navigator • Next-Gen Career Intelligence & 3D Constellation
+      </footer>
     </div>
   );
 }

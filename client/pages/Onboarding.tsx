@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,43 +9,57 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import {
   Calendar,
-  BookOpen,
-  Users,
+  Sparkles,
   Target,
   ArrowRight,
   ArrowLeft,
   CheckCircle2,
   Shield,
   Briefcase,
-  GraduationCap,
+  Zap,
+  Compass,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useCareer } from "../context/CareerContext";
 
 export default function Onboarding() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    currentRole: "",
-    careerGoals: "",
-    experience: "",
-    calendarConsent: false,
-    projectToolsConsent: false,
-    learningPlatformConsent: false,
-  });
+  const navigate = useNavigate();
+  const { roles, setTargetRoleId, updateProfile } = useCareer();
 
+  const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
+
+  const [formData, setFormData] = useState({
+    firstName: "Alex",
+    lastName: "Vance",
+    email: "alex.vance@techfleet.io",
+    currentTitle: "Senior Full-Stack Engineer",
+    targetRoleId: "role-staff-architect",
+    githubSync: true,
+    calendarSync: true,
+  });
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
+    } else {
+      // Finalize onboarding
+      updateProfile({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        currentTitle: formData.currentTitle,
+        targetRoleId: formData.targetRoleId,
+      });
+      setTargetRoleId(formData.targetRoleId);
+      navigate("/dashboard");
     }
   };
 
@@ -55,368 +69,278 @@ export default function Onboarding() {
     }
   };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  return (
+    <div className="min-h-screen bg-[#070b14] text-slate-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl space-y-6">
+        {/* Top Progress bar */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+            <span className="flex items-center gap-1.5 text-cyan-400">
+              <Compass className="w-3.5 h-3.5" /> Step {currentStep} of {totalSteps}
+            </span>
+            <span>{Math.round(progress)}% Completed</span>
+          </div>
+          <Progress value={progress} className="h-1.5 bg-slate-800" />
+        </div>
 
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold">
-                Welcome to SkillScape Navigator
-              </h2>
-              <p className="text-muted-foreground">
-                Let's set up your personalized AI career agent
-              </p>
-            </div>
+        {/* Wizard Card */}
+        <Card className="border-slate-800 bg-slate-900/90 backdrop-blur-xl shadow-2xl text-slate-100">
+          <CardHeader className="text-center pb-4">
+            <Badge
+              variant="outline"
+              className="mx-auto mb-2 border-cyan-500/40 text-cyan-300 bg-cyan-500/10 text-xs font-mono"
+            >
+              🚀 AI Career Setup Engine
+            </Badge>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+            {currentStep === 1 && (
+              <>
+                <CardTitle className="text-2xl font-bold text-white">
+                  Initialize Your Navigator Identity
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-400">
+                  Tell us who you are and what role you currently execute
+                </CardDescription>
+              </>
+            )}
+
+            {currentStep === 2 && (
+              <>
+                <CardTitle className="text-2xl font-bold text-white">
+                  Define Your Career Target Milestone
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-400">
+                  Select the high-leverage benchmark role you aspire to reach
+                </CardDescription>
+              </>
+            )}
+
+            {currentStep === 3 && (
+              <>
+                <CardTitle className="text-2xl font-bold text-white">
+                  Baseline Proficiency Matrix
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-400">
+                  Calibrate your starting competencies across primary tech domains
+                </CardDescription>
+              </>
+            )}
+
+            {currentStep === 4 && (
+              <>
+                <CardTitle className="text-2xl font-bold text-white">
+                  Activate Passive Digital Footprint
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-400">
+                  Enable non-intrusive telemetry to power real-time AI nudges
+                </CardDescription>
+              </>
+            )}
+          </CardHeader>
+
+          <CardContent className="space-y-6 pt-2">
+            {/* Step 1: Identity */}
+            {currentStep === 1 && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="firstName" className="text-xs text-slate-300">
+                      First Name
+                    </Label>
+                    <Input
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, firstName: e.target.value }))
+                      }
+                      className="bg-slate-950 border-slate-800 text-xs text-white"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lastName" className="text-xs text-slate-300">
+                      Last Name
+                    </Label>
+                    <Input
+                      id="lastName"
+                      value={formData.lastName}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, lastName: e.target.value }))
+                      }
+                      className="bg-slate-950 border-slate-800 text-xs text-white"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-xs text-slate-300">
+                    Work Email
+                  </Label>
                   <Input
-                    id="firstName"
-                    value={formData.firstName}
+                    id="email"
+                    type="email"
+                    value={formData.email}
                     onChange={(e) =>
-                      handleInputChange("firstName", e.target.value)
+                      setFormData((p) => ({ ...p, email: e.target.value }))
                     }
-                    placeholder="Enter your first name"
+                    className="bg-slate-950 border-slate-800 text-xs text-white"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="currentRole" className="text-xs text-slate-300">
+                    Current Professional Role
+                  </Label>
                   <Input
-                    id="lastName"
-                    value={formData.lastName}
+                    id="currentRole"
+                    value={formData.currentTitle}
                     onChange={(e) =>
-                      handleInputChange("lastName", e.target.value)
+                      setFormData((p) => ({ ...p, currentTitle: e.target.value }))
                     }
-                    placeholder="Enter your last name"
+                    placeholder="e.g. Senior Software Engineer"
+                    className="bg-slate-950 border-slate-800 text-xs text-white"
                   />
                 </div>
               </div>
+            )}
 
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder="Enter your email address"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="currentRole">Current Role</Label>
-                <Input
-                  id="currentRole"
-                  value={formData.currentRole}
-                  onChange={(e) =>
-                    handleInputChange("currentRole", e.target.value)
-                  }
-                  placeholder="e.g., Software Engineer, Product Manager"
-                />
-              </div>
-            </div>
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold">Tell Us About Your Goals</h2>
-              <p className="text-muted-foreground">
-                Help us understand where you want to go
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="experience">Years of Experience</Label>
-                <select
-                  className="w-full p-2 border border-input rounded-md bg-background"
-                  value={formData.experience}
-                  onChange={(e) =>
-                    handleInputChange("experience", e.target.value)
-                  }
-                >
-                  <option value="">Select your experience level</option>
-                  <option value="0-1">0-1 years (Entry Level)</option>
-                  <option value="2-4">2-4 years (Junior)</option>
-                  <option value="5-7">5-7 years (Mid-Level)</option>
-                  <option value="8+">8+ years (Senior)</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="careerGoals">Career Goals</Label>
-                <textarea
-                  id="careerGoals"
-                  className="w-full p-2 border border-input rounded-md bg-background min-h-[100px] resize-none"
-                  value={formData.careerGoals}
-                  onChange={(e) =>
-                    handleInputChange("careerGoals", e.target.value)
-                  }
-                  placeholder="Describe your short and long-term career aspirations..."
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-                <Card className="p-4 border-2 hover:border-primary cursor-pointer transition-colors">
-                  <div className="text-center space-y-2">
-                    <Briefcase className="h-8 w-8 mx-auto text-primary" />
-                    <h3 className="font-medium">Leadership Role</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Manage teams and projects
-                    </p>
-                  </div>
-                </Card>
-                <Card className="p-4 border-2 hover:border-primary cursor-pointer transition-colors">
-                  <div className="text-center space-y-2">
-                    <Target className="h-8 w-8 mx-auto text-primary" />
-                    <h3 className="font-medium">Technical Expert</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Deepen technical skills
-                    </p>
-                  </div>
-                </Card>
-                <Card className="p-4 border-2 hover:border-primary cursor-pointer transition-colors">
-                  <div className="text-center space-y-2">
-                    <GraduationCap className="h-8 w-8 mx-auto text-primary" />
-                    <h3 className="font-medium">Career Change</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Transition to new field
-                    </p>
-                  </div>
-                </Card>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 3:
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold">
-                Connect Your Digital Footprint
-              </h2>
-              <p className="text-muted-foreground">
-                Grant access to analyze your work patterns (you maintain full
-                control)
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <Card className="p-4">
-                <div className="flex items-start space-x-4">
-                  <Calendar className="h-6 w-6 text-primary mt-1" />
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-medium">Calendar Integration</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Analyze meeting patterns and time allocation
-                        </p>
+            {/* Step 2: Target Role */}
+            {currentStep === 2 && (
+              <div className="space-y-3">
+                {roles.map((role) => (
+                  <button
+                    key={role.id}
+                    type="button"
+                    onClick={() =>
+                      setFormData((p) => ({ ...p, targetRoleId: role.id }))
+                    }
+                    className={`w-full p-4 rounded-xl border text-left transition-all ${
+                      formData.targetRoleId === role.id
+                        ? "border-cyan-500 bg-cyan-950/30 text-white shadow-md shadow-cyan-950/40"
+                        : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="font-bold text-sm text-slate-100 flex items-center gap-2">
+                        {role.title}
+                        <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/40 text-[10px] font-mono">
+                          {role.tier}
+                        </Badge>
                       </div>
-                      <Checkbox
-                        checked={formData.calendarConsent}
-                        onCheckedChange={(checked) =>
-                          handleInputChange("calendarConsent", checked)
-                        }
-                      />
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      <Shield className="h-3 w-3 mr-1" />
-                      Read-only access
-                    </Badge>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-4">
-                <div className="flex items-start space-x-4">
-                  <Users className="h-6 w-6 text-primary mt-1" />
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-medium">
-                          Project Management Tools
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Track task completion and collaboration patterns
-                        </p>
+                      <div className="text-emerald-400 font-mono font-bold text-xs">
+                        {role.averageSalary}
                       </div>
-                      <Checkbox
-                        checked={formData.projectToolsConsent}
-                        onCheckedChange={(checked) =>
-                          handleInputChange("projectToolsConsent", checked)
-                        }
-                      />
                     </div>
-                    <Badge variant="outline" className="text-xs">
-                      <Shield className="h-3 w-3 mr-1" />
-                      Metadata only
-                    </Badge>
-                  </div>
-                </div>
-              </Card>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      {role.description}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
 
-              <Card className="p-4">
-                <div className="flex items-start space-x-4">
-                  <BookOpen className="h-6 w-6 text-primary mt-1" />
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-medium">Learning Platforms</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Understand learning preferences and progress
-                        </p>
-                      </div>
-                      <Checkbox
-                        checked={formData.learningPlatformConsent}
-                        onCheckedChange={(checked) =>
-                          handleInputChange("learningPlatformConsent", checked)
-                        }
-                      />
+            {/* Step 3: Proficiency Calibration */}
+            {currentStep === 3 && (
+              <div className="space-y-4 text-xs font-mono">
+                <p className="text-slate-400 text-xs mb-3 font-sans">
+                  Use the sliders to adjust your starting baseline levels. You can update these anytime in your 3D Constellation.
+                </p>
+
+                {[
+                  { name: "Frontend & Web Performance", val: 85, color: "#06b6d4" },
+                  { name: "Backend & Distributed Databases", val: 75, color: "#8b5cf6" },
+                  { name: "Cloud Infrastructure & Kubernetes", val: 65, color: "#3b82f6" },
+                  { name: "LLM Agents & Modern AI", val: 60, color: "#10b981" },
+                  { name: "System Architecture & Resilience", val: 70, color: "#f59e0b" },
+                  { name: "Leadership & Architectural Governance", val: 65, color: "#f43f5e" },
+                ].map((s) => (
+                  <div key={s.name} className="space-y-1.5 p-3 rounded-lg bg-slate-950/60 border border-slate-800">
+                    <div className="flex justify-between items-center">
+                      <span className="flex items-center gap-2 font-sans font-semibold text-slate-200">
+                        <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
+                        {s.name}
+                      </span>
+                      <span className="text-cyan-400 font-bold">{s.val} / 100</span>
                     </div>
-                    <Badge variant="outline" className="text-xs">
-                      <Shield className="h-3 w-3 mr-1" />
-                      Progress data only
-                    </Badge>
+                    <Progress value={s.val} className="h-1.5 bg-slate-800" />
                   </div>
-                </div>
-              </Card>
-            </div>
+                ))}
+              </div>
+            )}
 
-            <div className="bg-muted/50 p-4 rounded-lg">
-              <div className="flex items-start space-x-2">
-                <Shield className="h-5 w-5 text-primary mt-0.5" />
-                <div className="text-sm">
-                  <p className="font-medium">Privacy Guarantee</p>
-                  <p className="text-muted-foreground">
-                    Your data is encrypted, never shared with third parties, and
-                    you can revoke access anytime.
+            {/* Step 4: Digital Footprint Permissions */}
+            {currentStep === 4 && (
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-800/40 text-xs text-cyan-200 space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-cyan-300">
+                    <Shield className="w-4 h-4" /> Privacy-First Intelligence
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">
+                    SkillScape operates with zero-knowledge passive monitoring. Telemetry is used exclusively to calibrate your career roadmap and is never shared.
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-        );
 
-      case 4:
-        return (
-          <div className="space-y-6 text-center">
-            <div className="space-y-4">
-              <CheckCircle2 className="h-16 w-16 text-success mx-auto" />
-              <h2 className="text-2xl font-bold">You're All Set!</h2>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                Your AI career agent is now analyzing your digital footprint.
-                You'll start receiving personalized insights within 24 hours.
-              </p>
-            </div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-slate-950/60 border border-slate-800">
+                    <div className="space-y-0.5">
+                      <div className="font-bold text-xs text-white">GitHub Activity Telemetry</div>
+                      <div className="text-[11px] text-slate-400">
+                        Analyze PR reviews, merged code complexity, and language velocity
+                      </div>
+                    </div>
+                    <Switch
+                      checked={formData.githubSync}
+                      onCheckedChange={(val) =>
+                        setFormData((p) => ({ ...p, githubSync: val }))
+                      }
+                    />
+                  </div>
 
-            <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-success/10 p-6 rounded-lg space-y-4">
-              <h3 className="font-semibold">What happens next?</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div className="space-y-1">
-                  <div className="font-medium">🔍 Analysis</div>
-                  <div className="text-muted-foreground">
-                    AI reviews your patterns
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="font-medium">📊 Insights</div>
-                  <div className="text-muted-foreground">
-                    Skill gaps identified
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="font-medium">🎯 Nudges</div>
-                  <div className="text-muted-foreground">
-                    Personalized recommendations
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-slate-950/60 border border-slate-800">
+                    <div className="space-y-0.5">
+                      <div className="font-bold text-xs text-white">Calendar Deep Work Audit</div>
+                      <div className="text-[11px] text-slate-400">
+                        Detect meeting fatigue and schedule protected architecture slots
+                      </div>
+                    </div>
+                    <Switch
+                      checked={formData.calendarSync}
+                      onCheckedChange={(val) =>
+                        setFormData((p) => ({ ...p, calendarSync: val }))
+                      }
+                    />
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            <Button asChild size="lg" className="h-12 px-8">
-              <Link to="/dashboard" className="flex items-center gap-2">
-                Go to Dashboard
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        );
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+              <Button
+                variant="outline"
+                onClick={handlePrev}
+                disabled={currentStep === 1}
+                className="border-slate-800 bg-slate-950 text-slate-300 text-xs h-9"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Back
+              </Button>
 
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-primary hover:underline mb-4"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-          <div className="max-w-md mx-auto">
-            <Progress value={progress} className="mb-4" />
-            <p className="text-sm text-muted-foreground">
-              Step {currentStep} of {totalSteps}
-            </p>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="max-w-2xl mx-auto">
-          <Card className="p-8">
-            <CardContent className="p-0">
-              {renderStep()}
-
-              {/* Navigation */}
-              <div className="flex justify-between pt-8 mt-8 border-t">
-                <Button
-                  variant="outline"
-                  onClick={handlePrev}
-                  disabled={currentStep === 1}
-                  className="flex items-center gap-2"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  Previous
-                </Button>
-
-                {currentStep < totalSteps ? (
-                  <Button
-                    onClick={handleNext}
-                    className="flex items-center gap-2"
-                  >
-                    Next
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+              <Button
+                onClick={handleNext}
+                className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs h-9 px-5 shadow-lg shadow-cyan-900/30"
+              >
+                {currentStep === totalSteps ? (
+                  <>
+                    Launch 3D Constellation <Sparkles className="w-3.5 h-3.5 ml-1.5" />
+                  </>
                 ) : (
-                  <Button asChild className="flex items-center gap-2">
-                    <Link to="/dashboard">
-                      Complete Setup
-                      <CheckCircle2 className="h-4 w-4" />
-                    </Link>
-                  </Button>
+                  <>
+                    Continue <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </>
                 )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
