@@ -187,3 +187,4 @@ export function CareerPassportModal({ onClose }: CareerPassportModalProps) {
     </div>
   );
 }
+

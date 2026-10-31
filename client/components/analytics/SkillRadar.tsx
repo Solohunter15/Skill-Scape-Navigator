@@ -95,3 +95,4 @@ export function SkillRadar() {
     </div>
   );
 }
+

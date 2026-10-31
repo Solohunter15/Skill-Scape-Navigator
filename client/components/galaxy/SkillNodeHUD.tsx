@@ -168,3 +168,4 @@ export function SkillNodeHUD({ skill, onClose, onBoostXp }: SkillNodeHUDProps) {
     </div>
   );
 }
+

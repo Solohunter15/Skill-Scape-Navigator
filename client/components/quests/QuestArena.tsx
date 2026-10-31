@@ -166,3 +166,4 @@ export function QuestArena({ initialSkillId }: QuestArenaProps) {
     </div>
   );
 }
+

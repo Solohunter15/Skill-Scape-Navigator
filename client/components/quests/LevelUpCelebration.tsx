@@ -66,3 +66,4 @@ export function LevelUpCelebration({ data, onClose }: LevelUpCelebrationProps) {
     </div>
   );
 }
+

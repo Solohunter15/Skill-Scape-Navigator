@@ -202,3 +202,4 @@ export function ScenarioCard({ quest, onSolve }: ScenarioCardProps) {
     </Card>
   );
 }
+

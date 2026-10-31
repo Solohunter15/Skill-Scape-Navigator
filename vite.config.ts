@@ -12,18 +12,14 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     sourcemap: false,
-    target: "es2020", // Better browser compatibility
+    target: "es2020",
     assetsDir: "assets",
+    chunkSizeWarningLimit: 1200,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["react", "react-dom"],
-          router: ["react-router-dom"],
-          ui: [
-            "@radix-ui/react-accordion",
-            "@radix-ui/react-alert-dialog",
-            "@radix-ui/react-dialog",
-          ],
+          three: ["three"],
+          recharts: ["recharts"],
         },
       },
     },
@@ -36,9 +32,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "react-router-dom"],
+    include: ["react", "react-dom", "react-router-dom", "three", "recharts"],
   },
-  // Fix potential deployment issues
   define: {
     "process.env.NODE_ENV": JSON.stringify(mode),
   },

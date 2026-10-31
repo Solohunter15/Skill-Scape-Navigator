@@ -84,3 +84,4 @@ Users can customize their skills, proficiencies, and career goals via an intuiti
 - Vitest automated test suite verification (`npm test`).
 - Type check verification (`npm run typecheck`).
 - Production build validation (`npm run build`).
+

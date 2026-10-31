@@ -185,3 +185,4 @@ export function CustomSkillModal({ onClose, onAddSkill }: CustomSkillModalProps)
     </div>
   );
 }
+
